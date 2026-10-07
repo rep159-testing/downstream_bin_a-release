@@ -1,0 +1,12 @@
+Source: ros-binext-downstream-bin-a
+Section: misc
+Priority: optional
+Maintainer: "Jose Luis Rivero" <jrivero@honurobotics.com>
+Build-Depends: debhelper (>= 9.0.0), cmake, libgtest-dev, libgtest-dev <!nocheck>, libyaml-dev, pkg-config, ros-upstream-upstream-c, ros-binext-ros-workspace
+Homepage: https://index.ros.org/p/downstream_bin_a/#binext
+Standards-Version: 3.9.2
+
+Package: ros-binext-downstream-bin-a
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libyaml-0-2, ros-upstream-upstream-c, ros-binext-ros-workspace
+Description: Package of the binext distribution of the REP-159 test harness: reads a YAML document with libyaml and labels its XML payload through the upstream chain, which binext imports as binaries with binary_import.
