@@ -5,22 +5,36 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 find_package(upstream_c 0.1 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(YAML REQUIRED IMPORTED_TARGET yaml-0.1)
 
 add_library(downstream_bin_a SHARED src/downstream_bin_a.cpp)
+add_library(downstream_bin_a::downstream_bin_a ALIAS downstream_bin_a)
 target_include_directories(downstream_bin_a PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(downstream_bin_a PRIVATE upstream_c::upstream_c PkgConfig::YAML)
 
-install(TARGETS downstream_bin_a
+install(TARGETS downstream_bin_a EXPORT downstream_bin_aTargets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT downstream_bin_aTargets NAMESPACE downstream_bin_a::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/downstream_bin_a)
+configure_package_config_file(cmake/downstream_bin_aConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/downstream_bin_aConfig.cmake
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/downstream_bin_a)
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/downstream_bin_aConfigVersion.cmake
+  COMPATIBILITY SameMajorVersion)
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/downstream_bin_aConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/downstream_bin_aConfigVersion.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/downstream_bin_a)
 
 include(CTest)
 if(BUILD_TESTING)

@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(upstream_c 0.1)
+
+include("${CMAKE_CURRENT_LIST_DIR}/downstream_bin_aTargets.cmake")
+check_required_components(downstream_bin_a)
