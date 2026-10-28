@@ -1,6 +1,6 @@
-ros-extendablebin-downstream-bin-a (0.2.0-1resolute) resolute; urgency=high
+vendor-composablebin-downstream-bin-a (0.2.0-1resolute) resolute; urgency=high
 
-  * Release for extendablebin
+  * Release for composablebin
 
  -- "Jose Luis Rivero" <jrivero@honurobotics.com>  Wed, 07 Oct 2026 13:38:33 -0000
 
